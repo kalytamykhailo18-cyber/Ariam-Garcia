@@ -8,8 +8,9 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import ShareArticle from '../../components/ShareArticle';
 import ReadingProgress from '../../components/ReadingProgress';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 interface Props {
   post: BlogPost;
@@ -215,8 +216,8 @@ export default function BlogPostPage({ post, related, relatedProject }: Props) {
   return (
     <>
       <Head>
-        <title>{`${post.title} · ${personalInfo.name}`}</title>
-        <meta name="description" content={post.description} />
+        <title>{seoTitle(`${post.title} · ${personalInfo.name}`)}</title>
+        <meta name="description" content={seoDescription(post.description)} />
         <meta name="keywords" content={post.keywords} />
         <meta name="author" content={personalInfo.name} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

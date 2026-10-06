@@ -4,8 +4,9 @@ import Image from 'next/image';
 import { projects, personalInfo } from '../../lib/data';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const URL = `${SITE_URL}/projects`;
 const TITLE = `Portfolio · Projects · ${personalInfo.name}`;
 const DESCRIPTION = 'Full portfolio of 32 shipped software projects — ticketing platforms, AI CRMs, elderly-SOS platforms, wholesale ERPs, Solana DEXes, mobile apps, security incident response. Delivered in production for clients across LATAM, Europe and the US.';
@@ -37,8 +38,8 @@ export default function ProjectsIndex() {
   return (
     <>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href={URL} />

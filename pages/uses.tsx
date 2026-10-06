@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { personalInfo } from '../lib/data';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { SITE_URL } from '../lib/site';
+import { seoTitle, seoDescription } from '../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const URL = `${SITE_URL}/uses`;
 const TITLE = `Uses · Developer Stack · ${personalInfo.name}`;
 const DESCRIPTION = 'The tools, editors, terminals, extensions, hardware, and services Ariam Garcia Balmaseda actually uses day-to-day for shipping custom software — Next.js, VS Code, DigitalOcean, PostgreSQL, Claude API and more.';
@@ -150,8 +151,8 @@ export default function UsesPage() {
   return (
     <>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href={URL} />

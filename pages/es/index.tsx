@@ -5,8 +5,9 @@ import { personalInfo, projects, testimonials, clientProof } from '../../lib/dat
 import { services } from '../../lib/services';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const URL = `${SITE_URL}/es`;
 const TITLE = 'Ariam Garcia Balmaseda · Ingeniero de Software · IA, Ciberseguridad, Blockchain, Automatización';
 const DESCRIPTION = 'Ingeniero de software senior en full-stack, ingeniería de IA, ciberseguridad, blockchain, automatización de operaciones e industrial, y fintech. 50+ proyectos entregados en producción con 5.00 de calificación.';
@@ -54,7 +55,6 @@ const serviceSchema = {
   priceRange: '$$',
   areaServed: ['Argentina', 'México', 'Chile', 'Colombia', 'España', 'Ecuador', 'Perú', 'Worldwide'],
   provider: { '@type': 'Person', name: personalInfo.name },
-  aggregateRating: { '@type': 'AggregateRating', ratingValue: clientProof.average, reviewCount: clientProof.ratedProjects, bestRating: '5', worstRating: '1' },
   inLanguage: 'es',
 };
 
@@ -71,8 +71,8 @@ export default function HomeES() {
   return (
     <>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="keywords" content={KEYWORDS} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />

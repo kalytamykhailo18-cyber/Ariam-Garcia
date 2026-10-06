@@ -8,17 +8,21 @@ import { NextRequest, NextResponse } from 'next/server';
 //    for search bots that ignore cookies), but we set a canonical hint so the browser can offer
 //    "Read this in Español / Português" via the language switcher in the layout.
 
-const CANONICAL_HOST = 'ariam-garcia.vercel.app';
+const CANONICAL_HOST = (process.env.NEXT_PUBLIC_SITE_URL || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+const VERCEL_ENV = process.env.NEXT_PUBLIC_VERCEL_ENV || '';
 const LANG_COOKIE = 'preferredLang';
 
 export function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const host = req.headers.get('host') || '';
-  const isPreview =
-    host !== CANONICAL_HOST &&
-    host !== `www.${CANONICAL_HOST}` &&
-    !host.startsWith('localhost') &&
-    !host.startsWith('127.0.0.1');
+  // On Vercel, trust the deployment environment: only preview builds are hidden.
+  // Elsewhere, fall back to comparing the host against the canonical one.
+  const isPreview = VERCEL_ENV
+    ? VERCEL_ENV === 'preview'
+    : host !== CANONICAL_HOST &&
+      host !== `www.${CANONICAL_HOST}` &&
+      !host.startsWith('localhost') &&
+      !host.startsWith('127.0.0.1');
 
   const res = NextResponse.next();
 
@@ -48,6 +52,6 @@ export const config = {
   matcher: [
     // Run on everything except static assets and API routes.
     // Search-engine verification files and static assets must be served untouched.
-    '/((?!api|_next/static|_next/image|favicon.ico|favicon-16x16.png|favicon-32x32.png|apple-touch-icon.png|og-image.png|manifest.webmanifest|robots.txt|sitemap.xml|rss.xml|llms.txt|humans.txt|photo.jpg|photo1.jpg|resume.pdf|images|google66eddac96ed6f72e.html|854552bc764fc329eb9d56ac735cae22.txt).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|favicon-16x16.png|favicon-32x32.png|apple-touch-icon.png|og-image.png|manifest.webmanifest|robots.txt|sitemap.xml|rss.xml|llms.txt|humans.txt|photo.jpg|photo1.jpg|resume.pdf|images).*)',
   ],
 };

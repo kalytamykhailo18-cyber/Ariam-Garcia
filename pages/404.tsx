@@ -4,8 +4,9 @@ import { projects, personalInfo } from '../lib/data';
 import { services } from '../lib/services';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { SITE_URL } from '../lib/site';
+import { seoTitle, seoDescription } from '../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 export default function Custom404() {
   const featured = projects.slice(0, 6);
@@ -13,7 +14,7 @@ export default function Custom404() {
   return (
     <>
       <Head>
-        <title>{`Page not found · ${personalInfo.name}`}</title>
+        <title>{seoTitle(`Page not found · ${personalInfo.name}`)}</title>
         <meta name="description" content="The page you looked for was not found. Explore services, portfolio projects, or the FAQ instead." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="noindex, follow" />

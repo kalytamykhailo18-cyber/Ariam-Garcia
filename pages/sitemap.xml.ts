@@ -3,12 +3,12 @@ import { projects } from '../lib/data';
 import { services } from '../lib/services';
 import { posts } from '../lib/blog';
 import { hireRoles } from '../lib/hire';
+import { SITE_URL, SITE_UPDATED } from '../lib/site';
 
 function tagSlug(tag: string): string {
   return tag.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 }
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 function xmlEscape(s: string): string {
   return s
@@ -39,7 +39,8 @@ function urlBlock(loc: string, lastmod: string, changefreq: string, priority: st
 }
 
 function buildSitemap(): string {
-  const today = new Date().toISOString().split('T')[0];
+  // A stable date: a lastmod that changes on every request teaches Google to ignore it.
+  const today = SITE_UPDATED;
 
   const homeAlts = [
     { hreflang: 'en', href: SITE_URL + '/' },
@@ -65,19 +66,6 @@ function buildSitemap(): string {
   urls.push(urlBlock(SITE_URL + '/contact', today, 'monthly', '0.8'));
   urls.push(urlBlock(SITE_URL + '/uses', today, 'monthly', '0.7'));
   urls.push(urlBlock(SITE_URL + '/faq', today, 'monthly', '0.7'));
-
-  // Home section anchors
-  const anchors = [
-    { path: '/#disciplines', priority: '0.8', changefreq: 'weekly' },
-    { path: '/#projects', priority: '0.8', changefreq: 'weekly' },
-    { path: '/#experience', priority: '0.7', changefreq: 'monthly' },
-    { path: '/#testimonials', priority: '0.7', changefreq: 'monthly' },
-    { path: '/#skills', priority: '0.6', changefreq: 'monthly' },
-    { path: '/#blockchain', priority: '0.6', changefreq: 'monthly' },
-    { path: '/#ai', priority: '0.6', changefreq: 'monthly' },
-    { path: '/#contact', priority: '0.6', changefreq: 'monthly' },
-  ];
-  anchors.forEach((a) => urls.push(urlBlock(SITE_URL + a.path, today, a.changefreq, a.priority)));
 
   // Hire cluster — highest commercial intent, highest priority after home
   hireRoles.forEach((r) => urls.push(urlBlock(SITE_URL + '/hire/' + r.slug, today, 'weekly', '0.9')));

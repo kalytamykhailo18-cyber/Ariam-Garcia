@@ -4,8 +4,9 @@ import { services } from '../../lib/services';
 import { personalInfo } from '../../lib/data';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const URL = `${SITE_URL}/services`;
 const TITLE = `Services · ${personalInfo.name}`;
 const DESCRIPTION = 'Custom software development services: booking systems, operations automation, AI CRMs, blockchain platforms, mobile apps. Delivered as code the client owns.';
@@ -35,8 +36,8 @@ export default function ServicesIndex() {
   return (
     <>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href={URL} />

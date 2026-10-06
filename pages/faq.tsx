@@ -3,8 +3,9 @@ import Link from 'next/link';
 import { personalInfo } from '../lib/data';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { SITE_URL } from '../lib/site';
+import { seoTitle, seoDescription } from '../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const URL = `${SITE_URL}/faq`;
 const TITLE = `Frequently Asked Questions · ${personalInfo.name}`;
 const DESCRIPTION = 'Answers to the most common questions about hiring Ariam Garcia Balmaseda — pricing, workflow, stack, warranty, escrow, communication, portfolio access.';
@@ -125,8 +126,8 @@ export default function FAQPage() {
   return (
     <>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href={URL} />

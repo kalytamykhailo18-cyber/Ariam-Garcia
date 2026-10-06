@@ -5,8 +5,9 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import { projects, personalInfo, Project } from '../../lib/data';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 interface Props {
   project: Project;
@@ -77,7 +78,7 @@ export default function ProjectPage({ project, related }: Props) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-      { '@type': 'ListItem', position: 2, name: 'Projects', item: `${SITE_URL}#projects` },
+      { '@type': 'ListItem', position: 2, name: 'Projects', item: `${SITE_URL}/projects` },
       { '@type': 'ListItem', position: 3, name: project.title, item: url },
     ],
   };
@@ -85,8 +86,8 @@ export default function ProjectPage({ project, related }: Props) {
   return (
     <>
       <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
+        <title>{seoTitle(title)}</title>
+        <meta name="description" content={seoDescription(description)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href={url} />

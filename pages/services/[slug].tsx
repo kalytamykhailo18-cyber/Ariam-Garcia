@@ -5,8 +5,9 @@ import { services, Service } from '../../lib/services';
 import { projects, personalInfo } from '../../lib/data';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 interface Props {
   service: Service;
@@ -85,8 +86,8 @@ export default function ServicePage({ service, featured, otherServices }: Props)
   return (
     <>
       <Head>
-        <title>{`${service.title} · ${personalInfo.name}`}</title>
-        <meta name="description" content={service.metaDescription} />
+        <title>{seoTitle(`${service.title} · ${personalInfo.name}`)}</title>
+        <meta name="description" content={seoDescription(service.metaDescription)} />
         <meta name="keywords" content={service.keywords} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />

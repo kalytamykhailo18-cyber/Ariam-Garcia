@@ -5,8 +5,9 @@ import { services } from '../lib/services';
 import { projects, personalInfo, clientProof } from '../lib/data';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { SITE_URL } from '../lib/site';
+import { seoTitle, seoDescription } from '../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 type Locale = 'es' | 'pt';
 
@@ -79,13 +80,6 @@ export default function LocalizedServicePage({ locale, service, otherServices }:
     },
     areaServed: locale === 'pt' ? ['Brasil', 'Portugal'] : ['Argentina', 'México', 'Chile', 'Colombia', 'España', 'Ecuador', 'Perú'],
     serviceType: service.title,
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: clientProof.average,
-      reviewCount: clientProof.ratedProjects,
-      bestRating: '5',
-      worstRating: '1',
-    },
   };
 
   const faqSchema = {
@@ -112,8 +106,8 @@ export default function LocalizedServicePage({ locale, service, otherServices }:
   return (
     <>
       <Head>
-        <title>{`${service.title} · ${personalInfo.name}`}</title>
-        <meta name="description" content={service.metaDescription} />
+        <title>{seoTitle(`${service.title} · ${personalInfo.name}`)}</title>
+        <meta name="description" content={seoDescription(service.metaDescription)} />
         <meta name="keywords" content={service.keywords} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />

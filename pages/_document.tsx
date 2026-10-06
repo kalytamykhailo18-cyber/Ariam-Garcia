@@ -25,8 +25,11 @@ export default function Document() {
           href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
         />
 
-        {/* Preload the LCP hero image */}
-        <link rel="preload" as="image" href="/photo.jpg" fetchPriority="high" />
+        {/* Scroll-reveal sections start at opacity 0 and are faded in by JS.
+            Without JS (some crawlers, previews, script blockers) keep them visible. */}
+        <noscript>
+          <style>{`[style*="opacity:0"],[style*="opacity: 0"]{opacity:1!important}`}</style>
+        </noscript>
       </Head>
       <body className="bg-dark text-slate-100 antialiased">
         <a href="#main-content" className="skip-link">Skip to main content</a>

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { personalInfo, projects, experiences, testimonials, clientProof } from '../lib/data';
+import { personalInfo, projects } from '../lib/data';
 import Navbar      from '../components/Navbar';
 import Hero        from '../components/Hero';
 import Disciplines from '../components/Disciplines';
@@ -15,12 +15,13 @@ import Education   from '../components/Education';
 import Languages   from '../components/Languages';
 import Contact     from '../components/Contact';
 import Footer      from '../components/Footer';
+import { SITE_URL } from '../lib/site';
+import { seoTitle, seoDescription } from '../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const OG_IMAGE = `${SITE_URL}/og-image.png`;
-const TITLE = 'Ariam Garcia Balmaseda | Software Engineer · AI, Security, Blockchain, Automation';
-const DESCRIPTION = 'Senior software engineer across full-stack, AI engineering, cybersecurity, blockchain, business and industrial automation, and fintech. 50+ projects delivered in production, 5.00 rating, 11+ repeat clients.';
-const KEYWORDS = 'software engineer, full-stack developer, AI engineer, AI expert, cyber security expert, security engineer, incident response, blockchain engineer, smart contract developer, business automation professional, industrial automation expert, IoT engineer, fintech developer, payment integration, custom software, booking system, operations automation, AI CRM, Claude API, WhatsApp Business Cloud API, Solana, Ethereum, Next.js, React, Node.js, NestJS, PostgreSQL, hire developer, freelance engineer, Workana';
+const TITLE = 'Ariam Garcia Balmaseda | Software Engineer in Louisville, KY';
+const DESCRIPTION = 'Louisville, KY software engineer building custom web apps, AI assistants, booking systems, automation and blockchain platforms. 50+ projects delivered, code you own.';
+const KEYWORDS = 'software engineer, full-stack developer, AI engineer, AI expert, cyber security expert, security engineer, incident response, blockchain engineer, smart contract developer, business automation professional, industrial automation expert, IoT engineer, fintech developer, payment integration, custom software, booking system, operations automation, AI CRM, Claude API, WhatsApp Business Cloud API, Solana, Ethereum, Next.js, React, Node.js, NestJS, PostgreSQL, hire developer, freelance software engineer, software developer Louisville KY, Louisville web developer, Kentucky software engineer';
 
 const personSchema = {
   '@context': 'https://schema.org',
@@ -33,8 +34,6 @@ const personSchema = {
   image: {
     '@type': 'ImageObject',
     url: `${SITE_URL}/photo.jpg`,
-    width: 800,
-    height: 800,
     caption: `${personalInfo.name} — Software Engineer`,
   },
   jobTitle: 'Full-Stack Software Engineer',
@@ -63,6 +62,7 @@ const personSchema = {
     addressRegion: 'KY',
     addressCountry: 'USA',
   },
+  homeLocation: { '@type': 'Place', name: 'Louisville, KY, USA' },
   sameAs: [personalInfo.github],
   knowsLanguage: [
     { '@type': 'Language', name: 'English', alternateName: 'en' },
@@ -153,12 +153,22 @@ const personSchema = {
 const professionalServiceSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
+  '@id': `${SITE_URL}#business`,
   name: 'Ariam Garcia Balmaseda · Custom Software Development',
   url: SITE_URL,
   image: `${SITE_URL}/photo.jpg`,
   description: DESCRIPTION,
   priceRange: '$$',
-  areaServed: 'Worldwide',
+  email: personalInfo.email,
+  telephone: personalInfo.phone,
+  address: { '@type': 'PostalAddress', addressLocality: 'Louisville', addressRegion: 'KY', addressCountry: 'US' },
+  geo: { '@type': 'GeoCoordinates', latitude: 38.2527, longitude: -85.7585 },
+  areaServed: [
+    { '@type': 'City', name: 'Louisville, KY' },
+    { '@type': 'State', name: 'Kentucky' },
+    { '@type': 'Country', name: 'United States' },
+    'Worldwide',
+  ],
   serviceType: [
     'Custom Software Development',
     'Booking and Scheduling Systems',
@@ -169,18 +179,7 @@ const professionalServiceSchema = {
     'Payment System Integration',
     'Production Infrastructure and DevOps',
   ],
-  provider: {
-    '@type': 'Person',
-    name: personalInfo.name,
-    url: SITE_URL,
-  },
-  aggregateRating: {
-    '@type': 'AggregateRating',
-    ratingValue: clientProof.average,
-    reviewCount: clientProof.ratedProjects,
-    bestRating: '5',
-    worstRating: '1',
-  },
+  founder: { '@type': 'Person', '@id': `${SITE_URL}#person`, name: personalInfo.name },
 };
 
 const websiteSchema = {
@@ -193,75 +192,34 @@ const websiteSchema = {
   author: { '@type': 'Person', '@id': `${SITE_URL}#person`, name: personalInfo.name },
   publisher: { '@type': 'Person', '@id': `${SITE_URL}#person`, name: personalInfo.name },
   inLanguage: ['en', 'es', 'pt'],
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/blog?q={search_term_string}` },
-    'query-input': 'required name=search_term_string',
-  },
 };
 
 const portfolioSchema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',
   name: 'Featured Projects · Ariam Garcia Balmaseda Portfolio',
-  url: `${SITE_URL}#projects`,
+  url: `${SITE_URL}/projects`,
   description: 'Portfolio of custom software projects delivered in production across ticketing, CRM, healthcare, ERP, SaaS, blockchain and mobile.',
   hasPart: projects.slice(0, 12).map((p) => ({
     '@type': 'CreativeWork',
     name: p.title,
     description: p.description,
-    url: p.link,
+    url: `${SITE_URL}/projects/${p.id}`,
     image: `${SITE_URL}${p.image}`,
     keywords: p.tech.join(', '),
-    author: {
-      '@type': 'Person',
-      name: personalInfo.name,
-    },
+    author: { '@type': 'Person', '@id': `${SITE_URL}#person`, name: personalInfo.name },
   })),
 };
 
-const reviewSchemas = testimonials.slice(0, 8).map((t) => ({
-  '@context': 'https://schema.org',
-  '@type': 'Review',
-  reviewBody: t.quote,
-  author: {
-    '@type': 'Person',
-    name: t.author,
-  },
-  itemReviewed: {
-    '@type': 'Service',
-    name: t.project,
-    provider: {
-      '@type': 'Person',
-      name: personalInfo.name,
-    },
-  },
-  reviewRating: {
-    '@type': 'Rating',
-    ratingValue: '5',
-    bestRating: '5',
-  },
-}));
 
-const breadcrumbSchema = {
-  '@context': 'https://schema.org',
-  '@type': 'BreadcrumbList',
-  itemListElement: [
-    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
-    { '@type': 'ListItem', position: 2, name: 'Projects', item: `${SITE_URL}#projects` },
-    { '@type': 'ListItem', position: 3, name: 'Experience', item: `${SITE_URL}#experience` },
-    { '@type': 'ListItem', position: 4, name: 'Testimonials', item: `${SITE_URL}#testimonials` },
-    { '@type': 'ListItem', position: 5, name: 'Contact', item: `${SITE_URL}#contact` },
-  ],
-};
 
 export default function Home() {
   return (
     <>
       <Head>
         {/* Primary Meta */}
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="keywords" content={KEYWORDS} />
         <meta name="author" content={personalInfo.name} />
         <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -322,17 +280,12 @@ export default function Home() {
         {/* Preconnect / DNS-prefetch */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://www.workana.com" />
 
         {/* JSON-LD Structured Data */}
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(professionalServiceSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(portfolioSchema) }} />
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
-        {reviewSchemas.map((r, i) => (
-          <script key={`review-schema-${i}`} type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(r) }} />
-        ))}
       </Head>
 
       <div className="bg-dark text-slate-100 overflow-x-hidden">

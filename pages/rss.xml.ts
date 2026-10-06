@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next';
 import { posts } from '../lib/blog';
 import { personalInfo } from '../lib/data';
+import { SITE_URL } from '../lib/site';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 function esc(s: string): string {
   return s

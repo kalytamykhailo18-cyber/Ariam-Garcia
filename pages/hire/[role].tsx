@@ -7,8 +7,9 @@ import { services } from '../../lib/services';
 import { projects, personalInfo, clientProof } from '../../lib/data';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 
 interface Props {
   role: HireRole;
@@ -61,13 +62,6 @@ export default function HirePage({ role, proof, otherRoles, relatedService }: Pr
       jobTitle: role.role,
       sameAs: [personalInfo.github],
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: clientProof.average,
-      reviewCount: clientProof.ratedProjects,
-      bestRating: '5',
-      worstRating: '1',
-    },
   };
 
   const faqSchema = {
@@ -93,8 +87,8 @@ export default function HirePage({ role, proof, otherRoles, relatedService }: Pr
   return (
     <>
       <Head>
-        <title>{`${role.metaTitle} · ${personalInfo.name}`}</title>
-        <meta name="description" content={role.metaDescription} />
+        <title>{seoTitle(`${role.metaTitle} · ${personalInfo.name}`)}</title>
+        <meta name="description" content={seoDescription(role.metaDescription)} />
         <meta name="keywords" content={role.keywords} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />

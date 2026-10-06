@@ -4,8 +4,9 @@ import { posts } from '../../lib/blog';
 import { personalInfo } from '../../lib/data';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { SITE_URL } from '../../lib/site';
+import { seoTitle, seoDescription } from '../../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const URL = `${SITE_URL}/blog`;
 const TITLE = `Blog · Case Studies · ${personalInfo.name}`;
 const DESCRIPTION = 'In-depth case studies of shipped software: custom ticketing platforms, AI CRMs with Claude, Solana DEXes, wholesale ERPs, elderly-SOS platforms, security incident response. Written by Ariam Garcia Balmaseda.';
@@ -53,8 +54,8 @@ export default function BlogIndex() {
   return (
     <>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href={URL} />

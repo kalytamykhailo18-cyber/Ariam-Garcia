@@ -5,8 +5,9 @@ import { personalInfo, clientProof, experiences } from '../lib/data';
 import { services } from '../lib/services';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { SITE_URL } from '../lib/site';
+import { seoTitle, seoDescription } from '../lib/seo';
 
-const SITE_URL = 'https://ariam-garcia.vercel.app';
 const URL = `${SITE_URL}/about`;
 const TITLE = `About · ${personalInfo.name} — Full-Stack Developer`;
 const DESCRIPTION = 'About Ariam Garcia Balmaseda — senior full-stack developer, 10+ years of shipping custom software for service businesses. From spreadsheets and paper workflows to Next.js + AI CRM + blockchain. 5.00 rating on Workana.';
@@ -36,8 +37,8 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>{TITLE}</title>
-        <meta name="description" content={DESCRIPTION} />
+        <title>{seoTitle(TITLE)}</title>
+        <meta name="description" content={seoDescription(DESCRIPTION)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="robots" content="index, follow, max-image-preview:large" />
         <link rel="canonical" href={URL} />

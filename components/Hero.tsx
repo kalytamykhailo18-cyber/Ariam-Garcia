@@ -124,6 +124,9 @@ export default function Hero() {
             <h1 className="mb-5">
               <span className="block text-sm md:text-base font-semibold tracking-[0.2em] uppercase text-primary-light mb-3">
                 {personalInfo.name}
+                <span className="block mt-1 text-xs md:text-sm tracking-[0.15em] text-slate-400">
+                  Software Engineer · Louisville, KY
+                </span>
               </span>
               <span className="block text-4xl md:text-5xl xl:text-6xl font-black leading-[1.08] text-white">
                 I fix what your business

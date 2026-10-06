@@ -1,4 +1,12 @@
 /** @type {import('next').NextConfig} */
+
+// Public site URL, resolved once at build time:
+// explicit NEXT_PUBLIC_SITE_URL > Vercel production domain > fallback.
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'https://ariam-garcia.vercel.app')
+).replace(/\/$/, '');
+
 const securityHeaders = [
   {
     key: 'X-DNS-Prefetch-Control',
@@ -27,6 +35,11 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  env: {
+    NEXT_PUBLIC_SITE_URL: SITE_URL,
+    // 'production' | 'preview' | 'development' on Vercel; empty elsewhere.
+    NEXT_PUBLIC_VERCEL_ENV: process.env.VERCEL_ENV || '',
+  },
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
@@ -40,9 +53,17 @@ const nextConfig = {
     imageSizes: [64, 96, 128, 256, 384],
     minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
-      { protocol: 'https', hostname: 'ariam-garcia.vercel.app' },
-      { protocol: 'https', hostname: 'www.workana.com' },
+      { protocol: 'https', hostname: new URL(SITE_URL).hostname },
     ],
+  },
+  // beforeFiles rewrites win over /public, so these always reflect SITE_URL.
+  async rewrites() {
+    return {
+      beforeFiles: [
+        { source: '/robots.txt', destination: '/api/robots' },
+        { source: '/llms.txt', destination: '/api/llms' },
+      ],
+    };
   },
   async headers() {
     return [
