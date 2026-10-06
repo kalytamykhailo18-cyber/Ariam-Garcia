@@ -17,3 +17,6 @@ Thumbs.db
 # build artifacts
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+
+# CI workflows (not pushed)
+.github/workflows/
