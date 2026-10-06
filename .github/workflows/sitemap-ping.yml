@@ -1,0 +1,47 @@
+name: Ping search engines on deploy
+
+# Every push to main triggers a sitemap ping to Google + Bing + IndexNow.
+# This is a lightweight but real SEO signal: it tells search engines
+# "the sitemap changed, please re-crawl" instead of waiting for their scheduler.
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping Google
+        run: |
+          curl -sfL "https://www.google.com/ping?sitemap=https://ariam-garcia.vercel.app/sitemap.xml" || echo "Google ping non-fatal"
+
+      - name: Ping Bing
+        run: |
+          curl -sfL "https://www.bing.com/ping?sitemap=https://ariam-garcia.vercel.app/sitemap.xml" || echo "Bing ping non-fatal"
+
+      - name: Notify IndexNow (Bing / Yandex / Naver / Seznam)
+        env:
+          INDEXNOW_KEY: 854552bc764fc329eb9d56ac735cae22
+        run: |
+          curl -sfL -X POST "https://api.indexnow.org/indexnow" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"host\": \"ariam-garcia.vercel.app\",
+              \"key\": \"${INDEXNOW_KEY}\",
+              \"keyLocation\": \"https://ariam-garcia.vercel.app/${INDEXNOW_KEY}.txt\",
+              \"urlList\": [
+                \"https://ariam-garcia.vercel.app/\",
+                \"https://ariam-garcia.vercel.app/es\",
+                \"https://ariam-garcia.vercel.app/pt\",
+                \"https://ariam-garcia.vercel.app/services\",
+                \"https://ariam-garcia.vercel.app/projects\",
+                \"https://ariam-garcia.vercel.app/blog\",
+                \"https://ariam-garcia.vercel.app/about\",
+                \"https://ariam-garcia.vercel.app/contact\",
+                \"https://ariam-garcia.vercel.app/faq\",
+                \"https://ariam-garcia.vercel.app/uses\"
+              ]
+            }" || echo "IndexNow non-fatal"

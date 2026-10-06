@@ -1,0 +1,14 @@
+/* TEAM */
+Developer: Ariam Garcia Balmaseda
+Site: https://ariam-garcia.vercel.app
+GitHub: kalytamykhailo18-cyber
+From: Louisville, KY, USA
+
+/* THANKS */
+Every client who trusted a rented SaaS was worth replacing with something owned.
+
+/* SITE */
+Last update: 2026-09-26
+Standards: HTML5, ES2024, WCAG 2.2 AA
+Components: Next.js 14 Pages Router, TypeScript, TailwindCSS, Framer Motion, MUI Icons
+Software: DigitalOcean, Docker, PostgreSQL

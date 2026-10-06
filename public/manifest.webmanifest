@@ -1,0 +1,45 @@
+{
+  "name": "Ariam Garcia Balmaseda · Full-Stack Developer",
+  "short_name": "Ariam Garcia Balmaseda",
+  "description": "Senior full-stack developer building custom booking systems, operations automation, AI CRMs, blockchain platforms and mobile apps.",
+  "start_url": "/",
+  "id": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1220",
+  "theme_color": "#0b1220",
+  "lang": "en",
+  "categories": ["business", "productivity", "developer"],
+  "icons": [
+    { "src": "/favicon-16x16.png", "sizes": "16x16", "type": "image/png" },
+    { "src": "/favicon-32x32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "Services",
+      "short_name": "Services",
+      "url": "/services",
+      "description": "Custom software development services"
+    },
+    {
+      "name": "Projects",
+      "short_name": "Projects",
+      "url": "/#projects",
+      "description": "Portfolio of shipped projects"
+    },
+    {
+      "name": "FAQ",
+      "short_name": "FAQ",
+      "url": "/faq",
+      "description": "Frequently asked questions"
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "url": "/#contact",
+      "description": "Get in touch"
+    }
+  ]
+}

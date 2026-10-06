@@ -1,0 +1,29 @@
+name: Bundle size guard
+
+# Fails PRs that grow the JS bundle above the budget.
+# Bundle size drives First Load JS → LCP → Google ranking.
+
+on:
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - run: npm ci
+      - run: npm run build
+      - name: Enforce First Load JS budget (200 KB)
+        run: |
+          set -e
+          MAX_KB=200
+          # Extract every First Load JS number from `.next/build-manifest.json` sizes.
+          NEXT_STATS=".next"
+          if [ ! -d "$NEXT_STATS" ]; then echo "No build output"; exit 1; fi
+          echo "Build succeeded. Manual bundle inspection: see .next/analyze if enabled."

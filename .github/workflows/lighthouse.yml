@@ -1,0 +1,38 @@
+name: Lighthouse CI
+
+# Runs Lighthouse against the Vercel preview URL of every PR.
+# Fails the PR if any Core Web Vital regresses below the budget.
+# CWV are a Google ranking signal — a red PR here means a real SEO risk.
+
+on:
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch: {}
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Wait for Vercel Preview
+        id: preview
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          max_timeout: 600
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v11
+        with:
+          urls: |
+            ${{ steps.preview.outputs.url }}/
+            ${{ steps.preview.outputs.url }}/services
+            ${{ steps.preview.outputs.url }}/blog
+            ${{ steps.preview.outputs.url }}/faq
+            ${{ steps.preview.outputs.url }}/about
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          budgetPath: ./.github/lighthouse-budget.json
+          runs: 3
